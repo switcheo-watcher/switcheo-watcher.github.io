@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Switcheo Watcher</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+      .order {
+        margin: 4px;
+        background-color: #eee;
+        padding-top: 16px;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="jumbotron text-center">
+      <h1>Switcheo Watcher</h1>
+      <p>View-Only orders query</p> 
+      <p>NEO Address: <input type="text" id="neoAddressInput" size="32">
+      <button type="button" class="btn btn-success" id="getOrdersButton">Get Orders</button>
+    </div>
+    <div id="ordersDiv" class="container">
+    </div>
+    <script src="bundle.js"></script>
+    <script>
+      if (localStorage.getItem('lastAddress') !== null) {
+        document.getElementById("neoAddressInput").value = localStorage.getItem('lastAddress');  
+      }
+
+document.getElementById("getOrdersButton").onclick = function () {
+  var address = document.getElementById("neoAddressInput").value;
+  // Save address for reuse
+  localStorage.setItem('lastAddress', address);
+  document.getElementById("ordersDiv").innerHTML = 
+    'Fetching Orders...';
+  window.getOrdersFromAddress(address).then(function(value) {
+    var newText = '';
+    newText += '<div class="row">';
+    newText += '<h2>Open Orders</h2>';
+    newText += formatOrdersToHTML(value, 'open');
+    newText += '</div>';
+    newText += '<div class="row">';
+    newText += '<h2>Complete Orders</h2>';
+    newText += formatOrdersToHTML(value, 'completed');
+    newText += '</div>';
+    newText += '<div class="row">';
+    newText += '<h2>Cancelled Orders</h2>';
+    newText += formatOrdersToHTML(value, 'cancelled');
+    newText += '</div>';
+
+
+    document.getElementById("ordersDiv").innerHTML = newText;
+  });
+};
+    </script>
+  </body>
+</html>

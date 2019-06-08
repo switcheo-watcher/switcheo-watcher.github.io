@@ -1,0 +1,17 @@
+{
+  "name": "switcheo-watch",
+  "version": "1.0.0",
+  "description": "Switcheo applet to watch an Address' transactions in view-only mode.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "switcheo"
+  ],
+  "author": "MarioEVZ",
+  "license": "ISC",
+  "dependencies": {
+    "bs58": "^4.0.1"
+  }
+}
